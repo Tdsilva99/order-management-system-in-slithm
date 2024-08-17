@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro Restaurant Bar Order Form</title>
+</head>
+<body>
+    <h1>Retro Restaurant</h1>
+    <h2>Bar Order Form</h2>
+    <form id="orderForm">
+        <label for="date">Date:</label>
+        <input type="text" id="date" name="date" placeholder="YYYY-MM-DD"><br><br>
+
+        <label for="order_no">Order No:</label>
+        <input type="text" id="order_no" name="order_no"><br><br>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+
+        <label for="table_no">Table No:</label>
+        <input type="text" id="table_no" name="table_no"><br><br>
+
+        <label for="no_of_pax">No of Pax:</label>
+        <input type="text" id="no_of_pax" name="no_of_pax"><br><br>
+
+        <label for="notes">Notes:</label>
+        <textarea id="notes" name="notes"></textarea><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-database.js"></script>
+    
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        var database = firebase.database();
+
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get form values
+            var date = document.getElementById('date').value;
+            var orderNo = document.getElementById('order_no').value;
+            var name = document.getElementById('name').value;
+            var tableNo = document.getElementById('table_no').value;
+            var pax = document.getElementById('no_of_pax').value;
+            var notes = document.getElementById('notes').value;
+
+            // Write data to Firebase
+            database.ref('orders/').push({
+                date: date,
+                orderNo: orderNo,
+                name: name,
+                tableNo: tableNo,
+                pax: pax,
+                notes: notes
+            });
+
+            // Clear the form
+            document.getElementById('orderForm').reset();
+        });
+    </script>
+</body>
+</html>
